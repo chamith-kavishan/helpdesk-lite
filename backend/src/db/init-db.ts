@@ -1,6 +1,18 @@
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import path from 'path';
 import mysql from 'mysql2/promise';
+
+function resolveSchemaPath() {
+  const distPath = path.resolve(__dirname, 'sql', 'schema.sql');
+  if (existsSync(distPath)) return distPath;
+
+  const srcPath = path.resolve(process.cwd(), 'src', 'db', 'sql', 'schema.sql');
+  if (existsSync(srcPath)) return srcPath;
+
+  throw new Error(`Schema file not found. Tried:
+  - ${distPath}
+  - ${srcPath}`);
+}
 
 export async function initMySqlSchema() {
   const connection = await mysql.createConnection({
@@ -26,18 +38,16 @@ export async function initMySqlSchema() {
       'SELECT v FROM app_meta WHERE k = "schema_version" LIMIT 1',
     );
     const current = rows.length ? rows[0].v : null;
-
     const targetVersion = 'v1';
 
     if (
       process.env.FORCE_SCHEMA_APPLY === 'true' ||
       current !== targetVersion
     ) {
-      const schemaPath = path.join(__dirname, 'sql', '01_schema.sql');
+      const schemaPath = resolveSchemaPath();
       const sql = readFileSync(schemaPath, 'utf8');
 
       await connection.query(sql);
-
       await connection.query(
         'REPLACE INTO app_meta (k, v) VALUES ("schema_version", ?)',
         [targetVersion],
