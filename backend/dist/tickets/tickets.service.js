@@ -14,9 +14,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TicketsService = void 0;
 const common_1 = require("@nestjs/common");
-const mysql_1 = require("../db/mysql");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
+const mysql_1 = require("../db/mysql");
 const event_schema_1 = require("../mongo/schemas/event.schema");
 let TicketsService = class TicketsService {
     eventModel;

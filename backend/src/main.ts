@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import 'dotenv/config';
+
+import { AppModule } from './app.module';
 import { initMySqlSchema } from './db/init-db';
 
 async function bootstrap() {

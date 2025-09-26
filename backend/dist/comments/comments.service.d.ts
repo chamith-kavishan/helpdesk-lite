@@ -1,8 +1,8 @@
+import { RowDataPacket } from 'mysql2';
+import { Model } from 'mongoose';
 import { Comment, CommentDocument } from '../mongo/schemas/comment.schema';
 import { EventDocument } from '../mongo/schemas/event.schema';
-import { Model } from 'mongoose';
 import { CommentsGateway } from '../realtime/comments.gateway';
-import { RowDataPacket } from 'mysql2';
 interface UserRow extends RowDataPacket {
     id: number;
     name: string | null;

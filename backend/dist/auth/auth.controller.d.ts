@@ -4,12 +4,9 @@ export declare class AuthController {
     private auth;
     constructor(auth: AuthService);
     register(dto: RegisterDto): Promise<{
-        id: any;
+        id: number;
         email: string;
         role: "user" | "admin";
     }>;
-    login(dto: LoginDto): Promise<{
-        accessToken: any;
-        user: any;
-    }>;
+    login(dto: LoginDto): Promise<import("./auth.types").LoginResult>;
 }

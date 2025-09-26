@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentsService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
 const comment_schema_1 = require("../mongo/schemas/comment.schema");
 const event_schema_1 = require("../mongo/schemas/event.schema");
-const mongoose_2 = require("mongoose");
 const comments_gateway_1 = require("../realtime/comments.gateway");
 const mysql_1 = require("../db/mysql");
 let CommentsService = class CommentsService {

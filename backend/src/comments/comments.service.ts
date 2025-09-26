@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { RowDataPacket } from 'mysql2';
+import { Model } from 'mongoose';
+
 import { Comment, CommentDocument } from '../mongo/schemas/comment.schema';
 import { Event, EventDocument } from '../mongo/schemas/event.schema';
-import { Model } from 'mongoose';
 import { CommentsGateway } from '../realtime/comments.gateway';
-import { RowDataPacket } from 'mysql2';
 import { pool } from '../db/mysql';
 
 interface UserRow extends RowDataPacket {

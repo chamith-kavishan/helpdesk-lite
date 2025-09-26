@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TicketsModule = void 0;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
 const tickets_controller_1 = require("./tickets.controller");
 const tickets_service_1 = require("./tickets.service");
 const comments_service_1 = require("../comments/comments.service");
-const mongoose_1 = require("@nestjs/mongoose");
 const comment_schema_1 = require("../mongo/schemas/comment.schema");
 const event_schema_1 = require("../mongo/schemas/event.schema");
 const comments_gateway_1 = require("../realtime/comments.gateway");

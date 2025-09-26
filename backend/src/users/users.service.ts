@@ -1,5 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { pool } from '../db/mysql';
+import { RowDataPacket, ResultSetHeader } from 'mysql2';
+
+interface UserRow extends RowDataPacket {
+  id: number;
+  name: string;
+  email: string;
+  password_hash: string;
+  role: 'user' | 'admin';
+  created_at: Date;
+}
 
 @Injectable()
 export class UsersService {
@@ -8,8 +18,8 @@ export class UsersService {
     email: string,
     password_hash: string,
     role: 'user' | 'admin' = 'user',
-  ) {
-    const [res]: any = await pool.query(
+  ): Promise<{ id: number; email: string; role: 'user' | 'admin' }> {
+    const [res] = await pool.query<ResultSetHeader>(
       'INSERT INTO users(name, email, password_hash, role) VALUES (?, ?, ?, ?)',
       [name, email, password_hash, role],
     );
@@ -17,7 +27,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string) {
-    const [rows]: any = await pool.query(
+    const [rows] = await pool.query<UserRow[]>(
       'SELECT * FROM users WHERE email=? LIMIT 1',
       [email],
     );
@@ -25,7 +35,7 @@ export class UsersService {
   }
 
   async findById(id: number) {
-    const [rows]: any = await pool.query(
+    const [rows] = await pool.query<UserRow[]>(
       'SELECT * FROM users WHERE id=? LIMIT 1',
       [id],
     );
@@ -33,7 +43,7 @@ export class UsersService {
   }
 
   async listUsers() {
-    const [rows]: any = await pool.query(
+    const [rows] = await pool.query(
       `SELECT id, name, email, role FROM users ORDER BY created_at DESC`,
     );
     return rows;

@@ -9,8 +9,9 @@ import {
   Query,
   Req,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
+import { z } from 'zod';
+
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { RolesGuard } from '../common/roles.guard';
 import { Roles } from '../common/roles.decorator';
@@ -18,7 +19,6 @@ import { ZodValidationPipe } from '../common/zod.pipe';
 import { AssignDto, CreateTicketDto, UpdateTicketDto } from './dto';
 import { TicketsService } from './tickets.service';
 import { CommentsService } from '../comments/comments.service';
-import { z } from 'zod';
 
 @Controller()
 @UseGuards(JwtAuthGuard, RolesGuard)

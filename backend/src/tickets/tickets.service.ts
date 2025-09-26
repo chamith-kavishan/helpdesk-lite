@@ -3,9 +3,10 @@ import {
   NotFoundException,
   ForbiddenException,
 } from '@nestjs/common';
-import { pool } from '../db/mysql';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+
+import { pool } from '../db/mysql';
 import { Event, EventDocument } from '../mongo/schemas/event.schema';
 import { Role } from 'src/common/roles.decorator';
 

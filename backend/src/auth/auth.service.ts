@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { UsersService } from '../users/users.service';
+import { LoginResult } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
     return this.users.create(name, email, hash, role);
   }
 
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<LoginResult> {
     const u = await this.users.findByEmail(email);
     if (!u) throw new UnauthorizedException('Invalid credentials');
     const ok = await bcrypt.compare(password, u.password_hash);
