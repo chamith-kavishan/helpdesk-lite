@@ -3,7 +3,21 @@ module.exports = {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
-    container: { center: true, padding: "1rem" },
+    screens: {
+      sm: "375px",
+      md: "768px",
+      lg: "1280px",
+      xl: "1920px",
+    },
+    container: {
+      padding: {
+        DEFAULT: "10px",
+        xl: "70px",
+        lg: "40px",
+        md: "16px",
+      },
+      center: true,
+    },
     extend: {
       colors: {
         brand: {

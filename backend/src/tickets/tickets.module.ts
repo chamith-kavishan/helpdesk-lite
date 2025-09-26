@@ -5,6 +5,7 @@ import { CommentsService } from '../comments/comments.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Comment, CommentSchema } from '../mongo/schemas/comment.schema';
 import { Event, EventSchema } from '../mongo/schemas/event.schema';
+import { CommentsGateway } from 'src/realtime/comments.gateway';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { Event, EventSchema } from '../mongo/schemas/event.schema';
     ]),
   ],
   controllers: [TicketsController],
-  providers: [TicketsService, CommentsService],
+  providers: [TicketsService, CommentsService, CommentsGateway],
 })
 export class TicketsModule {}

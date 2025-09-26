@@ -6,11 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pool = void 0;
 const promise_1 = __importDefault(require("mysql2/promise"));
 exports.pool = promise_1.default.createPool({
-    host: process.env.MYSQL_HOST,
-    port: Number(process.env.MYSQL_PORT),
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DB,
+    host: process.env.MYSQL_HOST || 'localhost',
+    user: process.env.MYSQL_USER || 'root',
+    password: process.env.MYSQL_PASSWORD || '',
+    database: process.env.MYSQL_DB || 'helpdesk',
     connectionLimit: 10,
 });
 //# sourceMappingURL=mysql.js.map

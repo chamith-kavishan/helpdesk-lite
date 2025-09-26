@@ -52,12 +52,12 @@ let AuthService = class AuthService {
     constructor(users) {
         this.users = users;
     }
-    async register(email, password, role = 'user') {
+    async register(name, email, password, role = 'user') {
         const exists = await this.users.findByEmail(email);
         if (exists)
             throw new common_1.UnauthorizedException('Email already in use');
         const hash = await bcrypt.hash(password, 12);
-        return this.users.create(email, hash, role);
+        return this.users.create(name, email, hash, role);
     }
     async login(email, password) {
         const u = await this.users.findByEmail(email);
@@ -67,7 +67,7 @@ let AuthService = class AuthService {
         if (!ok)
             throw new common_1.UnauthorizedException('Invalid credentials');
         const token = jwt.sign({ sub: u.id, email: u.email, role: u.role }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES || '1d' });
-        return { accessToken: token };
+        return { accessToken: token, user: u };
     }
 };
 exports.AuthService = AuthService;

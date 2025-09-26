@@ -8,6 +8,7 @@ export class AuthService {
   constructor(private users: UsersService) {}
 
   async register(
+    name: string,
     email: string,
     password: string,
     role: 'user' | 'admin' = 'user',
@@ -15,7 +16,7 @@ export class AuthService {
     const exists = await this.users.findByEmail(email);
     if (exists) throw new UnauthorizedException('Email already in use');
     const hash = await bcrypt.hash(password, 12);
-    return this.users.create(email, hash, role);
+    return this.users.create(name, email, hash, role);
   }
 
   async login(email: string, password: string) {
@@ -30,6 +31,6 @@ export class AuthService {
       { expiresIn: process.env.JWT_EXPIRES || '1d' },
     );
 
-    return { accessToken: token };
+    return { accessToken: token, user: u };
   }
 }

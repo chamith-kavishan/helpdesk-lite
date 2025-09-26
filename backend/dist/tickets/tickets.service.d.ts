@@ -1,5 +1,6 @@
 import { Model } from 'mongoose';
 import { EventDocument } from '../mongo/schemas/event.schema';
+import { Role } from 'src/common/roles.decorator';
 export declare class TicketsService {
     private readonly eventModel;
     constructor(eventModel: Model<EventDocument>);
@@ -20,10 +21,16 @@ export declare class TicketsService {
         id: number;
         role: 'user' | 'admin';
     }): Promise<any>;
-    listTickets(q: string | undefined, status: string | undefined, page: number | undefined, limit: number | undefined, user: {
+    listTickets(q: string | undefined, status: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | undefined, page: number | undefined, limit: number | undefined, user: {
         id: number;
-        role: 'user' | 'admin';
-    }): Promise<any>;
+        role: Role;
+    }): Promise<{
+        items: any[];
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+    }>;
     updateTicket(id: number, partial: any, user: {
         id: number;
         role: 'user' | 'admin';

@@ -30,14 +30,16 @@ export class TicketsController {
 
   @Post('tickets')
   @Roles('user', 'admin')
-  @UsePipes(new ZodValidationPipe(CreateTicketDto))
-  create(@Req() req, @Body() dto: CreateTicketDto) {
+  create(
+    @Req() req,
+    @Body(new ZodValidationPipe(CreateTicketDto)) dto: CreateTicketDto,
+  ) {
     return this.tickets.createTicket({ ...dto, created_by: req.user.id });
   }
 
   @Get('tickets')
   @Roles('user', 'admin')
-  list(
+  async list(
     @Req() req,
     @Query('q') q?: string,
     @Query('status') status?: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED',
@@ -46,7 +48,7 @@ export class TicketsController {
   ) {
     return this.tickets.listTickets(
       q,
-      status,
+      status as any,
       Number(page),
       Number(limit),
       req.user,
@@ -61,18 +63,20 @@ export class TicketsController {
 
   @Patch('tickets/:id')
   @Roles('user', 'admin')
-  @UsePipes(new ZodValidationPipe(UpdateTicketDto))
-  update(@Req() req, @Param('id') id: string, @Body() dto: any) {
+  update(
+    @Req() req,
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(UpdateTicketDto)) dto: any,
+  ) {
     return this.tickets.updateTicket(Number(id), dto, req.user);
   }
 
   @Put('tickets/:id/assign')
   @Roles('admin')
-  @UsePipes(new ZodValidationPipe(AssignDto))
   assign(
     @Req() req,
     @Param('id') id: string,
-    @Body() dto: { assigned_to: number },
+    @Body(new ZodValidationPipe(AssignDto)) dto: { assigned_to: number },
   ) {
     return this.tickets.assignTicket(Number(id), dto.assigned_to, req.user);
   }
@@ -80,11 +84,11 @@ export class TicketsController {
   // Comments (Mongo)
   @Post('tickets/:id/comments')
   @Roles('user', 'admin')
-  @UsePipes(new ZodValidationPipe(z.object({ body: z.string().min(1) })))
   addComment(
     @Req() req,
     @Param('id') id: string,
-    @Body() dto: { body: string },
+    @Body(new ZodValidationPipe(z.object({ body: z.string().min(1) })))
+    dto: { body: string },
   ) {
     return this.comments.addComment(Number(id), req.user.id, dto.body);
   }

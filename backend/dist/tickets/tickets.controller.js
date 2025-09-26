@@ -32,7 +32,7 @@ let TicketsController = class TicketsController {
     create(req, dto) {
         return this.tickets.createTicket({ ...dto, created_by: req.user.id });
     }
-    list(req, q, status, page = '1', limit = '10') {
+    async list(req, q, status, page = '1', limit = '10') {
         return this.tickets.listTickets(q, status, Number(page), Number(limit), req.user);
     }
     get(req, id) {
@@ -57,9 +57,8 @@ exports.TicketsController = TicketsController;
 __decorate([
     (0, common_1.Post)('tickets'),
     (0, roles_decorator_1.Roles)('user', 'admin'),
-    (0, common_1.UsePipes)(new zod_pipe_1.ZodValidationPipe(dto_1.CreateTicketDto)),
     __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.Body)(new zod_pipe_1.ZodValidationPipe(dto_1.CreateTicketDto))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
@@ -74,7 +73,7 @@ __decorate([
     __param(4, (0, common_1.Query)('limit')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, String, Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TicketsController.prototype, "list", null);
 __decorate([
     (0, common_1.Get)('tickets/:id'),
@@ -88,10 +87,9 @@ __decorate([
 __decorate([
     (0, common_1.Patch)('tickets/:id'),
     (0, roles_decorator_1.Roles)('user', 'admin'),
-    (0, common_1.UsePipes)(new zod_pipe_1.ZodValidationPipe(dto_1.UpdateTicketDto)),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('id')),
-    __param(2, (0, common_1.Body)()),
+    __param(2, (0, common_1.Body)(new zod_pipe_1.ZodValidationPipe(dto_1.UpdateTicketDto))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", void 0)
@@ -99,10 +97,9 @@ __decorate([
 __decorate([
     (0, common_1.Put)('tickets/:id/assign'),
     (0, roles_decorator_1.Roles)('admin'),
-    (0, common_1.UsePipes)(new zod_pipe_1.ZodValidationPipe(dto_1.AssignDto)),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('id')),
-    __param(2, (0, common_1.Body)()),
+    __param(2, (0, common_1.Body)(new zod_pipe_1.ZodValidationPipe(dto_1.AssignDto))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", void 0)
@@ -110,10 +107,9 @@ __decorate([
 __decorate([
     (0, common_1.Post)('tickets/:id/comments'),
     (0, roles_decorator_1.Roles)('user', 'admin'),
-    (0, common_1.UsePipes)(new zod_pipe_1.ZodValidationPipe(zod_1.z.object({ body: zod_1.z.string().min(1) }))),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('id')),
-    __param(2, (0, common_1.Body)()),
+    __param(2, (0, common_1.Body)(new zod_pipe_1.ZodValidationPipe(zod_1.z.object({ body: zod_1.z.string().min(1) })))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", void 0)

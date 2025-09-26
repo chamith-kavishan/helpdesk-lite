@@ -13,7 +13,13 @@ export declare class TicketsController {
         created_by: number;
         id: number;
     }>;
-    list(req: any, q?: string, status?: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED', page?: string, limit?: string): Promise<any>;
+    list(req: any, q?: string, status?: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED', page?: string, limit?: string): Promise<{
+        items: any[];
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+    }>;
     get(req: any, id: string): Promise<any>;
     update(req: any, id: string, dto: any): Promise<any>;
     assign(req: any, id: string, dto: {

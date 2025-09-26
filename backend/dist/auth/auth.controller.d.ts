@@ -10,5 +10,6 @@ export declare class AuthController {
     }>;
     login(dto: LoginDto): Promise<{
         accessToken: any;
+        user: any;
     }>;
 }

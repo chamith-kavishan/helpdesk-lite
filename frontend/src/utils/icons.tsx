@@ -57,3 +57,66 @@ export const ProcessingIcon = () => {
     </svg>
   );
 };
+
+export const UserIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth="1"
+    stroke="#E1E1E1"
+    className="size-6"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+    />
+  </svg>
+);
+
+export const EmailIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M3.33366 3.33334H16.667C17.5837 3.33334 18.3337 4.08334 18.3337 5.00001V15C18.3337 15.9167 17.5837 16.6667 16.667 16.6667H3.33366C2.41699 16.6667 1.66699 15.9167 1.66699 15V5.00001C1.66699 4.08334 2.41699 3.33334 3.33366 3.33334Z"
+      stroke="#E1E1E1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M18.3337 5L10.0003 10.8333L1.66699 5"
+      stroke="#E1E1E1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const PasswordIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15.8333 9.16666H4.16667C3.24619 9.16666 2.5 9.91285 2.5 10.8333V16.6667C2.5 17.5871 3.24619 18.3333 4.16667 18.3333H15.8333C16.7538 18.3333 17.5 17.5871 17.5 16.6667V10.8333C17.5 9.91285 16.7538 9.16666 15.8333 9.16666Z"
+      stroke="#E1E1E1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M5.83301 9.16666V5.83332C5.83301 4.72825 6.27199 3.66845 7.0534 2.88704C7.8348 2.10564 8.89461 1.66666 9.99967 1.66666C11.1047 1.66666 12.1646 2.10564 12.946 2.88704C13.7274 3.66845 14.1663 4.72825 14.1663 5.83332V9.16666"
+      stroke="#E1E1E1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);

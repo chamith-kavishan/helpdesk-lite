@@ -23,7 +23,7 @@ let AuthController = class AuthController {
         this.auth = auth;
     }
     register(dto) {
-        return this.auth.register(dto.email, dto.password, dto.role);
+        return this.auth.register(dto.name, dto.email, dto.password, dto.role);
     }
     login(dto) {
         return this.auth.login(dto.email, dto.password);

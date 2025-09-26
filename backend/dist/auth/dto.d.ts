@@ -1,13 +1,16 @@
 import { z } from 'zod';
 export declare const RegisterDto: z.ZodObject<{
+    name: z.ZodString;
     email: z.ZodString;
     password: z.ZodString;
     role: z.ZodDefault<z.ZodOptional<z.ZodEnum<["user", "admin"]>>>;
 }, "strip", z.ZodTypeAny, {
+    name: string;
     password: string;
     email: string;
     role: "user" | "admin";
 }, {
+    name: string;
     password: string;
     email: string;
     role?: "user" | "admin" | undefined;

@@ -1,8 +1,19 @@
-import { atom, useAtom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
+import { useAtom } from "jotai";
+import Cookies from "js-cookie";
 
-type User = { id: number; email: string; role: "user" | "admin" } | null;
-const tokenAtom = atom<string | null>(localStorage.getItem("token"));
-const userAtom = atom<User>(null);
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  role: "user" | "admin";
+} | null;
+
+const tokenAtom = atomWithStorage<string | null>(
+  "auth:token",
+  Cookies.get("token") ?? null
+);
+const userAtom = atomWithStorage<User>("auth:user", null);
 
 export function useAuth() {
   const [token, setToken] = useAtom(tokenAtom);
@@ -10,8 +21,9 @@ export function useAuth() {
 
   const saveToken = (t: string | null) => {
     setToken(t);
-    if (t) localStorage.setItem("token", t);
-    else localStorage.removeItem("token");
+    if (t) Cookies.set("token", t, { expires: 7 });
+    else Cookies.remove("token");
   };
+
   return { token, saveToken, user, setUser };
 }

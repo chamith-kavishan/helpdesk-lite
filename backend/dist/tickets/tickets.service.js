@@ -35,7 +35,7 @@ let TicketsService = class TicketsService {
         return { id, ...data, status: 'OPEN' };
     }
     async getTicket(id, user) {
-        const [rows] = await mysql_1.pool.query(`SELECT t.*, u1.email AS created_by_email, u2.email AS assigned_to_email
+        const [rows] = await mysql_1.pool.query(`SELECT t.*, u1.name AS created_by_name, u2.email AS assigned_to_email, u2.name AS assigned_to_name
        FROM tickets t
        JOIN users u1 ON u1.id=t.created_by
        LEFT JOIN users u2 ON u2.id=t.assigned_to
@@ -43,35 +43,53 @@ let TicketsService = class TicketsService {
         const t = rows[0];
         if (!t)
             throw new common_1.NotFoundException('Ticket not found');
-        if (user.role !== 'admin' && t.created_by !== user.id)
+        if (user.role !== 'admin' &&
+            t.created_by !== user.id &&
+            t.assigned_to !== user.id)
             throw new common_1.ForbiddenException();
         return t;
     }
     async listTickets(q, status, page = 1, limit = 10, user) {
+        const _page = Math.max(1, Number.isFinite(+page) ? +page : 1);
+        const _limit = Math.min(100, Math.max(1, Number.isFinite(+limit) ? +limit : 10));
+        const offset = (_page - 1) * _limit;
         const where = [];
         const params = [];
         if (status) {
-            where.push('t.status=?');
+            where.push('t.status = ?');
             params.push(status);
         }
-        if (q) {
+        if (q && q.trim()) {
             where.push('(t.title LIKE ? OR t.description LIKE ?)');
             params.push(`%${q}%`, `%${q}%`);
         }
         if (user.role !== 'admin') {
-            where.push('t.created_by=?');
-            params.push(user.id);
+            where.push('(t.created_by = ? OR t.assigned_to = ?)');
+            params.push(user.id, user.id);
         }
         const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
-        const offset = (page - 1) * limit;
-        const [rows] = await mysql_1.pool.query(`SELECT t.*, u1.email AS created_by_email, u2.email AS assigned_to_email
-       FROM tickets t
-       JOIN users u1 ON u1.id=t.created_by
-       LEFT JOIN users u2 ON u2.id=t.assigned_to
-       ${whereSql}
-       ORDER BY t.created_at DESC
-       LIMIT ? OFFSET ?`, [...params, Number(limit), Number(offset)]);
-        return rows;
+        const [countRows] = await mysql_1.pool.query(`SELECT COUNT(*) AS total
+         FROM tickets t
+         ${whereSql}`, params);
+        const total = Number(countRows[0]?.total ?? 0);
+        const [rows] = await mysql_1.pool.query(`SELECT t.*,
+              u1.email AS created_by_email,
+              u1.name AS created_by_name,
+              u2.email AS assigned_to_email,
+              u2.name AS assigned_to_name
+         FROM tickets t
+         JOIN users u1 ON u1.id = t.created_by
+         LEFT JOIN users u2 ON u2.id = t.assigned_to
+         ${whereSql}
+         ORDER BY t.created_at DESC
+         LIMIT ? OFFSET ?`, [...params, _limit, offset]);
+        return {
+            items: rows,
+            page: _page,
+            limit: _limit,
+            total,
+            totalPages: Math.max(1, Math.ceil(total / _limit)),
+        };
     }
     async updateTicket(id, partial, user) {
         const t = await this.getTicket(id, user);

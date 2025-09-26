@@ -1,63 +1,89 @@
 @import "tailwindcss";
 
-@theme {
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4ed8;
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.03);
+@theme inline {
+  --font-nunito: "Nunito Sans", sans-serif;
+
+  --color-adminMainColor: #000000;
+  --color-adminBgColor: #000000;
+  --color-adminComponentBg: #1a1925;
+  --color-adminAddItem: #76bc21;
+  --color-adminSubPath: #f6fbff;
+  --color-green: #00a36c;
+  --color-red: #e11a38;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --breakpoint-3xl: 1400px;
+
+  --shadow-custom-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
-@layer base {
-  html {
-    @apply antialiased;
-  }
-  body {
-    @apply bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100;
-  }
-  h1 {
-    @apply text-xl font-semibold text-slate-900 dark:text-white;
-  }
-  h2 {
-    @apply text-lg font-semibold text-slate-900 dark:text-white;
-  }
-  a {
-    @apply text-brand-600 hover:text-brand-700 dark:text-blue-400 dark:hover:text-blue-300;
-  }
-  ::selection {
-    @apply bg-blue-200 dark:bg-blue-800;
-  }
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-@layer components {
-  .card {
-    @apply rounded-2xl bg-white shadow-card ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700;
-  }
-  .card-header {
-    @apply flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-700;
-  }
-  .card-body {
-    @apply p-4;
-  }
+.text10 {
+  @apply font-semibold text-[#E1E1E1] text-[10px] font-nunito;
+}
 
-  .btn {
-    @apply inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium ring-1 ring-inset focus:outline-none focus-visible:ring-2 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-  .btn-primary {
-    @apply bg-brand-600 text-white hover:bg-brand-700 ring-brand-700/10;
-  }
-  .btn-ghost {
-    @apply bg-transparent text-slate-700 hover:bg-slate-100 ring-transparent dark:text-slate-200 dark:hover:bg-slate-700/60;
-  }
-  .btn-outline {
-    @apply bg-white text-slate-700 ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700/60;
-  }
+.text12 {
+  @apply font-semibold text-[#FFFFFF] text-[13px] font-nunito;
+}
 
-  .input {
-    @apply block w-full rounded-lg border-slate-200 bg-white text-sm text-slate-900 shadow-sm focus:ring-2 focus:ring-brand-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100;
-  }
-  .label {
-    @apply text-sm font-medium text-slate-700 dark:text-slate-200;
-  }
-  .badge {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset;
-  }
+.text13 {
+  @apply font-semibold text-[#F2F2F2] text-xs font-nunito;
+}
+
+.text14 {
+  @apply font-semibold text-[#F2F2F2] text-sm font-nunito;
+}
+
+.text16 {
+  @apply font-semibold text-[#F2F2F2] text-base font-nunito;
+}
+
+.main-label {
+  @apply text-white text-xl font-normal;
+}
+
+.input-label {
+  @apply text-base font-semibold text-white;
+}
+
+.primary-input {
+  @apply mt-3 w-full rounded-[10px] border border-[#B0B0B0] px-5 py-2 text-sm font-normal bg-[#12121C] placeholder:text-[#B0B0B0] text-white;
+}
+
+.text-destructive {
+  @apply text-red font-medium text-sm mt-3;
+}
+
+.select__control,
+.css-p3h9b2-control,
+.css-1rvqszs-control,
+.css-13cymwt-control,
+.css-xk31ai-control,
+.react-select__control {
+  border-radius: 10px !important;
+  height: 40px !important;
+  border: 1px solid #ccc !important;
+  overflow: hidden;
+  z-index: 10 !important;
+}
+
+.css-4xgw5l-IndicatorsContainer2 {
+  border-radius: 10px !important;
+  width: 35px !important;
+  height: 35px !important;
+  margin-right: 4px !important;
+  margin-top: 2px !important;
+}
+
+.Toastify__toast-container {
+  z-index: 999999 !important;
 }

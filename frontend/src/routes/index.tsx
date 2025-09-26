@@ -1,22 +1,38 @@
-import { Routes, Route } from "react-router-dom";
-import Login from "../pages/Login";
-import TicketsList from "../pages/TicketsList";
-import PrivateRoute from "../auth/PrivateRoute";
+import { createBrowserRouter } from "react-router-dom";
+import { AuthLayout } from "../components/layout/AuthLayout";
+import TicketsList from "../pages/tickets/TicketsList";
+import Login from "../pages/auth/Login";
+import CreateTicket from "../pages/tickets/CreateTicket";
+import TicketDetails from "../pages/tickets/TicketDetails";
+import Register from "../pages/auth/Register";
 
-export default function AppRoutes() {
-  return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      {/* <Route path="/register" element={<Register />} /> */}
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/",
+        element: <TicketsList />,
+      },
+      {
+        path: "/ticket/create",
+        element: <CreateTicket />,
+      },
+      {
+        path: "/ticket/:id",
+        element: <TicketDetails />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+]);
 
-      <Route
-        path="/"
-        element={
-          <PrivateRoute>
-            <TicketsList />
-          </PrivateRoute>
-        }
-      />
-    </Routes>
-  );
-}
+export default router;

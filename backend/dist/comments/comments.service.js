@@ -18,12 +18,15 @@ const mongoose_1 = require("@nestjs/mongoose");
 const comment_schema_1 = require("../mongo/schemas/comment.schema");
 const event_schema_1 = require("../mongo/schemas/event.schema");
 const mongoose_2 = require("mongoose");
+const comments_gateway_1 = require("../realtime/comments.gateway");
 let CommentsService = class CommentsService {
     commentModel;
     eventModel;
-    constructor(commentModel, eventModel) {
+    commentsGateway;
+    constructor(commentModel, eventModel, commentsGateway) {
         this.commentModel = commentModel;
         this.eventModel = eventModel;
+        this.commentsGateway = commentsGateway;
     }
     async addComment(ticketId, authorId, body) {
         const c = await this.commentModel.create({ ticketId, authorId, body });
@@ -32,6 +35,13 @@ let CommentsService = class CommentsService {
             ticketId,
             actorId: authorId,
             payload: {},
+        });
+        this.commentsGateway.emitNewComment(ticketId, {
+            _id: c._id,
+            ticketId,
+            authorId,
+            body,
+            createdAt: c.createdAt,
         });
         return c;
     }
@@ -50,6 +60,7 @@ exports.CommentsService = CommentsService = __decorate([
     __param(0, (0, mongoose_1.InjectModel)(comment_schema_1.Comment.name)),
     __param(1, (0, mongoose_1.InjectModel)(event_schema_1.Event.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model])
+        mongoose_2.Model,
+        comments_gateway_1.CommentsGateway])
 ], CommentsService);
 //# sourceMappingURL=comments.service.js.map

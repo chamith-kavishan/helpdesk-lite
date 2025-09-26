@@ -4,13 +4,14 @@ import { pool } from '../db/mysql';
 @Injectable()
 export class UsersService {
   async create(
+    name: string,
     email: string,
     password_hash: string,
     role: 'user' | 'admin' = 'user',
   ) {
     const [res]: any = await pool.query(
-      'INSERT INTO users(email, password_hash, role) VALUES (?, ?, ?)',
-      [email, password_hash, role],
+      'INSERT INTO users(name, email, password_hash, role) VALUES (?, ?, ?, ?)',
+      [name, email, password_hash, role],
     );
     return { id: res.insertId, email, role };
   }
@@ -29,5 +30,12 @@ export class UsersService {
       [id],
     );
     return rows[0] || null;
+  }
+
+  async listUsers() {
+    const [rows]: any = await pool.query(
+      `SELECT id, name, email, role FROM users ORDER BY created_at DESC`,
+    );
+    return rows;
   }
 }

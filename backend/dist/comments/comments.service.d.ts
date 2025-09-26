@@ -1,10 +1,12 @@
 import { Comment, CommentDocument } from '../mongo/schemas/comment.schema';
 import { EventDocument } from '../mongo/schemas/event.schema';
 import { Model } from 'mongoose';
+import { CommentsGateway } from 'src/realtime/comments.gateway';
 export declare class CommentsService {
     private readonly commentModel;
     private readonly eventModel;
-    constructor(commentModel: Model<CommentDocument>, eventModel: Model<EventDocument>);
+    private readonly commentsGateway;
+    constructor(commentModel: Model<CommentDocument>, eventModel: Model<EventDocument>, commentsGateway: CommentsGateway);
     addComment(ticketId: number, authorId: number, body: string): Promise<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, Comment, {}, {}> & Comment & {
         _id: import("mongoose").Types.ObjectId;
     } & {
