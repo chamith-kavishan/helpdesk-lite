@@ -4,4 +4,8 @@ export interface Comment {
   authorId: number;
   body: string;
   createdAt: string;
+  user: {
+    name: string;
+    email: string;
+  };
 }

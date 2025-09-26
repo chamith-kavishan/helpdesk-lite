@@ -19,6 +19,7 @@ const comment_schema_1 = require("../mongo/schemas/comment.schema");
 const event_schema_1 = require("../mongo/schemas/event.schema");
 const mongoose_2 = require("mongoose");
 const comments_gateway_1 = require("../realtime/comments.gateway");
+const mysql_1 = require("../db/mysql");
 let CommentsService = class CommentsService {
     commentModel;
     eventModel;
@@ -36,22 +37,35 @@ let CommentsService = class CommentsService {
             actorId: authorId,
             payload: {},
         });
-        this.commentsGateway.emitNewComment(ticketId, {
+        const [userRows] = await mysql_1.pool.query('SELECT id, name, email FROM users WHERE id = ? LIMIT 1', [authorId]);
+        const user = userRows[0] || null;
+        const dto = {
             _id: c._id,
             ticketId,
             authorId,
             body,
             createdAt: c.createdAt,
-        });
-        return c;
+            user,
+        };
+        this.commentsGateway.emitNewComment(ticketId, dto);
+        return dto;
     }
     async listComments(ticketId, limit = 50) {
-        return this.commentModel
+        const comments = await this.commentModel
             .find({ ticketId })
             .sort({ createdAt: -1 })
             .limit(limit)
             .lean()
             .exec();
+        if (!comments.length)
+            return [];
+        const userIds = Array.from(new Set(comments.map((c) => c.authorId)));
+        const [rows] = await mysql_1.pool.query('SELECT id, name, email FROM users WHERE id IN (?)', [userIds]);
+        const userMap = new Map(rows.map((u) => [u.id, u]));
+        return comments.map((c) => ({
+            ...c,
+            user: userMap.get(c.authorId) || null,
+        }));
     }
 };
 exports.CommentsService = CommentsService;

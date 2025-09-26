@@ -27,22 +27,6 @@ export declare class TicketsController {
     }): Promise<any>;
     addComment(req: any, id: string, dto: {
         body: string;
-    }): Promise<import("mongoose").Document<unknown, {}, import("mongoose").Document<unknown, {}, import("../mongo/schemas/comment.schema").Comment, {}, {}> & import("../mongo/schemas/comment.schema").Comment & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    }, {}, {}> & import("mongoose").Document<unknown, {}, import("../mongo/schemas/comment.schema").Comment, {}, {}> & import("../mongo/schemas/comment.schema").Comment & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    } & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>>;
-    listComments(req: any, id: string): Promise<(import("mongoose").FlattenMaps<import("mongoose").Document<unknown, {}, import("../mongo/schemas/comment.schema").Comment, {}, {}> & import("../mongo/schemas/comment.schema").Comment & {
-        _id: import("mongoose").Types.ObjectId;
-    } & {
-        __v: number;
-    }> & Required<{
-        _id: import("mongoose").Types.ObjectId;
-    }>)[]>;
+    }): Promise<any>;
+    listComments(req: any, id: string): Promise<any[]>;
 }

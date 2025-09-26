@@ -26,6 +26,8 @@ export default function TicketDetails() {
   const qc = useQueryClient();
   const { user, token } = useAuth();
   const [newComment, setNewComment] = useState("");
+  const [commentError, setCommentError] = useState(false);
+
   const ticketKey = ["ticket", id];
   const commentsKey = ["comments", id];
 
@@ -112,6 +114,17 @@ export default function TicketDetails() {
       qc.invalidateQueries({ queryKey: commentsKey });
     },
   });
+
+  const handleCommentSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmed = newComment.trim();
+    if (!trimmed) {
+      setCommentError(true);
+      return;
+    }
+    setCommentError(false);
+    addComment.mutate({ body: trimmed });
+  };
 
   const STATUS_OPTIONS = [
     { value: "OPEN", label: "Open" },
@@ -300,7 +313,7 @@ export default function TicketDetails() {
                 className="rounded-[10px] border border-[#B0B0B0] p-3 text-white"
               >
                 <div className="text-sm opacity-70">
-                  {new Date(c.createdAt).toLocaleString()}
+                  {new Date(c.createdAt).toLocaleString()} by {c.user.name}
                 </div>
                 <div>{c.body}</div>
               </div>
@@ -312,12 +325,7 @@ export default function TicketDetails() {
 
         <form
           className="mt-4 flex gap-2 flex-col items-start"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (newComment.trim()) {
-              addComment.mutate({ body: newComment.trim() });
-            }
-          }}
+          onSubmit={handleCommentSubmit}
         >
           <div className="w-full md:w-[70%]">
             <textarea
@@ -327,6 +335,11 @@ export default function TicketDetails() {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
             />
+            {commentError && (
+              <p id="comment-error" className="text-red-500 text-sm mt-1">
+                Comment cannot be empty.
+              </p>
+            )}
           </div>
           <PrimaryButton
             name={addComment.isPending ? "Posting…" : "Post"}

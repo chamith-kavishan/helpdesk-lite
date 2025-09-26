@@ -89,14 +89,13 @@ export class TicketsController {
     @Param('id') id: string,
     @Body(new ZodValidationPipe(z.object({ body: z.string().min(1) })))
     dto: { body: string },
-  ) {
+  ): Promise<any> {
     return this.comments.addComment(Number(id), req.user.id, dto.body);
   }
 
   @Get('tickets/:id/comments')
   @Roles('user', 'admin')
-  listComments(@Req() req, @Param('id') id: string) {
-    // getTicket enforces access rights
+  listComments(@Req() req, @Param('id') id: string): Promise<any[]> {
     return this.tickets
       .getTicket(Number(id), req.user)
       .then(() => this.comments.listComments(Number(id)));

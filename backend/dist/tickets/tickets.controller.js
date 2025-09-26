@@ -112,7 +112,7 @@ __decorate([
     __param(2, (0, common_1.Body)(new zod_pipe_1.ZodValidationPipe(zod_1.z.object({ body: zod_1.z.string().min(1) })))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TicketsController.prototype, "addComment", null);
 __decorate([
     (0, common_1.Get)('tickets/:id/comments'),
@@ -121,7 +121,7 @@ __decorate([
     __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TicketsController.prototype, "listComments", null);
 exports.TicketsController = TicketsController = __decorate([
     (0, common_1.Controller)(),
