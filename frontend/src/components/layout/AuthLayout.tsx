@@ -22,17 +22,20 @@ export const AuthLayout = () => {
         <div className="rounded-none sticky z-[999999] bg-adminBgColor h-[80px] md:min-h-[120px] top-0 w-full py-3 flex flex-row justify-between items-center border-b border-gray-500">
           <div className="flex items-center justify-end md:justify-between w-full z-50">
             <div className="flex justify-between w-full items-center">
-              <Link to="/" className="text-[#00A36C] text-2xl font-bold gap-3">
+              <Link
+                to="/"
+                className="text-[#00A36C] text-lg md:text-2xl font-bold gap-3"
+              >
                 HelpDesk Lite
               </Link>
 
-              <div className="flex items-center gap-4 mt-2">
-                <span className="text-white text-sm">
+              <div className="flex items-center gap-2 md:gap-4 mt-2">
+                <span className="text-white text-xs md:text-sm">
                   {user?.name} ({user?.role})
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="bg-[#5E1609] cursor-pointer text-white px-3 py-1 rounded text-sm hover:bg-red-700"
+                  className="bg-[#5E1609] cursor-pointer text-white px-3 py-1 rounded text-xs md:text-sm hover:bg-red-700"
                 >
                   Logout
                 </button>

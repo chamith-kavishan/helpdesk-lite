@@ -125,3 +125,9 @@ export const PRIORITY_OPTIONS = [
   { value: "MEDIUM", label: "Medium" },
   { value: "HIGH", label: "High" },
 ];
+
+export const STATUS_OPTIONS = [
+  { value: "OPEN", label: "Open" },
+  { value: "IN_PROGRESS", label: "In Progress" },
+  { value: "RESOLVED", label: "Resolved" },
+] as const;

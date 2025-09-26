@@ -203,7 +203,7 @@ const Badge = ({
 }) => {
   return (
     <span
-      className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+      className={`px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${
         className || ""
       }`}
     >

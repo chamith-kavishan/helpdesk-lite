@@ -6,7 +6,7 @@ import { TicketsService } from './tickets.service';
 import { CommentsService } from '../comments/comments.service';
 import { Comment, CommentSchema } from '../mongo/schemas/comment.schema';
 import { Event, EventSchema } from '../mongo/schemas/event.schema';
-import { CommentsGateway } from 'src/realtime/comments.gateway';
+import { CommentsGateway } from '../realtime/comments.gateway';
 
 @Module({
   imports: [

@@ -10,6 +10,7 @@ import {
   CUSTOM_SELECT_STYLES,
   PRIORITY_COLORS,
   STATUS_COLORS,
+  STATUS_OPTIONS,
 } from "../../utils/constants";
 import PrimaryButton from "../../components/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton";
@@ -125,12 +126,6 @@ export default function TicketDetails() {
     setCommentError(false);
     addComment.mutate({ body: trimmed });
   };
-
-  const STATUS_OPTIONS = [
-    { value: "OPEN", label: "Open" },
-    { value: "IN_PROGRESS", label: "In Progress" },
-    { value: "RESOLVED", label: "Resolved" },
-  ] as const;
 
   const [selectedStatus, setSelectedStatus] = useState<{
     value: Ticket["status"];
