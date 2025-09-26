@@ -3,11 +3,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import Swal from "sweetalert2";
 
 import { axiosClient } from "../../api/axiosClient";
 import { CUSTOM_SELECT_STYLES, PRIORITY_OPTIONS } from "../../utils/constants";
 import PrimaryButton from "../../components/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton";
+import { toast } from "react-toastify";
 
 const schema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -31,8 +33,26 @@ export default function CreateTicket() {
   });
 
   const onSubmit = async (data: Form) => {
-    await axiosClient.post("/tickets", data);
-    nav("/");
+    const { isConfirmed } = await Swal.fire({
+      title: "Create this ticket?",
+      text: "Please confirm you want to submit the ticket.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Create",
+      cancelButtonText: "Cancel",
+      focusCancel: true,
+    });
+
+    if (!isConfirmed) return;
+
+    try {
+      await axiosClient.post("/tickets", data);
+      toast.success("Your ticket has been submitted.");
+      nav("/");
+    } catch (err) {
+      console.log(err);
+      toast.error("Something went wrong");
+    }
   };
 
   return (

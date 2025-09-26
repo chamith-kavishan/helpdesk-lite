@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 import { useAuth } from "../../auth/useAuth";
 import { axiosClient } from "../../api/axiosClient";
@@ -116,7 +117,44 @@ export default function TicketDetails() {
     },
   });
 
-  const handleCommentSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleStatusChange = async () => {
+    if (!selectedStatus?.value) return;
+
+    const { isConfirmed } = await Swal.fire({
+      title: "Change status?",
+      text: `Set status to "${selectedStatus.label}"?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Change",
+      cancelButtonText: "Cancel",
+      focusCancel: true,
+    });
+
+    if (!isConfirmed) return;
+
+    updateStatus.mutate(selectedStatus.value);
+  };
+
+  const handleAssignUser = async () => {
+    const uid = selectedAssignee ? Number(selectedAssignee.value) : 0;
+    const label = selectedAssignee ? selectedAssignee.label : "Unassigned";
+
+    const { isConfirmed } = await Swal.fire({
+      title: "Update assignee?",
+      text: `Assign this ticket to "${label}"?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Assign",
+      cancelButtonText: "Cancel",
+      focusCancel: true,
+    });
+
+    if (!isConfirmed) return;
+
+    assignTo.mutate(uid);
+  };
+
+  const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmed = newComment.trim();
     if (!trimmed) {
@@ -124,7 +162,28 @@ export default function TicketDetails() {
       return;
     }
     setCommentError(false);
-    addComment.mutate({ body: trimmed });
+
+    const { isConfirmed } = await Swal.fire({
+      title: "Post this comment?",
+      text: "Your comment will be visible to others on this ticket.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Post",
+      cancelButtonText: "Cancel",
+      focusCancel: true,
+    });
+    if (!isConfirmed) return;
+    addComment.mutate(
+      { body: trimmed },
+      {
+        onSuccess: () => {
+          toast.success("Posted.");
+        },
+        onError: () => {
+          toast.error("Failed to post comment.");
+        },
+      }
+    );
   };
 
   const [selectedStatus, setSelectedStatus] = useState<{
@@ -246,11 +305,7 @@ export default function TicketDetails() {
               <button
                 type="button"
                 className="text-sm px-3 py-2 rounded bg-[#2f2f2f] text-white border border-white/20 disabled:opacity-50"
-                onClick={() => {
-                  if (selectedStatus?.value) {
-                    updateStatus.mutate(selectedStatus.value);
-                  }
-                }}
+                onClick={handleStatusChange}
                 disabled={!statusChanged || updateStatus.isPending}
                 title="Apply status"
               >
@@ -281,12 +336,7 @@ export default function TicketDetails() {
               <button
                 type="button"
                 className="text-sm px-3 py-2 rounded bg-[#2f2f2f] text-white border border-white/20 disabled:opacity-50"
-                onClick={() => {
-                  const uid = selectedAssignee
-                    ? Number(selectedAssignee.value)
-                    : 0;
-                  assignTo.mutate(uid);
-                }}
+                onClick={handleAssignUser}
                 disabled={!assigneeChanged || assignTo.isPending || !users}
                 title="Apply assignee"
               >
