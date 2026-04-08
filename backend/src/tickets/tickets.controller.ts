@@ -62,7 +62,7 @@ export class TicketsController {
   }
 
   @Patch('tickets/:id')
-  @Roles('user', 'admin')
+  @Roles('admin')
   update(
     @Req() req,
     @Param('id') id: string,

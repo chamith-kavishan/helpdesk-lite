@@ -131,8 +131,7 @@ export class TicketsService {
     user: { id: number; role: 'user' | 'admin' },
   ) {
     const t = await this.getTicket(id, user); // includes auth check for non-admin
-    if (user.role !== 'admin' && t.created_by !== user.id)
-      throw new ForbiddenException();
+    if (user.role !== 'admin') throw new ForbiddenException();
     const fields: string[] = [];
     const params: any[] = [];
     for (const k of ['title', 'description', 'status', 'priority']) {

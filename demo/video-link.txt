@@ -1,0 +1,32 @@
+Datepicker library
+volume, turnover, trades, change, change percentage at first
+Main layout height reduce
+Last updated day
+Shrikable sidebar
+Please select at stock screener
+Index performace check
+theme change
+select option text to white
+type text to white
+
+
+onselect company, show company details
+admin can add companies
+favicon check
+
+
+Rocell
+Lanka Tiles
+Unidil Packaging
+Doctor of Bats
+Koshin Sky (Pvt) Ltd.
+Scope Cinemas
+Super Fashion
+Ratiyala Auto Care
+Supershine Car Care
+AMT Enterprises
+Groceries Direct (pvt) Ltd.
+Crystal Clear Facility Services
+OZLINK
+Premmier Rubber Products (Pvt) Ltd
+SkyTek Engineering Services (Pvt) Ltd
